@@ -38,8 +38,8 @@ export const SORT_TYPES = Object.freeze({
 const titleAsc = (a, b) => a.title.localeCompare(b.title);
 const titleDesc = (a, b) => b.title.localeCompare(a.title);
 
-const artistAsc = (a, b) => a.artist.localeCompare(b.artist);
-const artistDesc = (a, b) => b.artist.localeCompare(a.artist);
+const artistAsc = (a, b) => a.artists.artist_name.localeCompare(b.artists.artist_name);
+const artistDesc = (a, b) => b.artists.artist_name.localeCompare(a.artists.artist_name);
 
 const yearAsc = (a, b) => a.year - b.year;
 const yearDesc = (a, b) => b.year - a.year;
