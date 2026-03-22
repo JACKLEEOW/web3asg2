@@ -78,7 +78,7 @@ const SongsFilterMain = (props) => {
         const checkTitle = () => {
             return (
                 !titleFilterBox.active || 
-                song.title.toLowerCase().includes(titleFilterBox.value)
+                song.title.toLowerCase().includes(titleFilterBox.property.toLowerCase())
             );
         }
 
@@ -124,10 +124,10 @@ const SongsFilterMain = (props) => {
     const updateFilterHandler = (type, property, displayName, activation = true) => {
         
         // Update filter boxes
-        // console.log(type, property, displayName, activation);
+        console.log(type, property, displayName, activation);
 
         if (type === FILTER_TYPES.TITLE) {
-            setTitleFilterBox(prev => ({...prev, active: activation}));
+            setTitleFilterBox(prev => ({...prev, property: property, active: activation}));
         } else if (type === FILTER_TYPES.YEAR) {
             setYearFilterBoxes(prev => prev.map(t => t.property === property ? { ...t, active: activation } : t));
         } else if (type === FILTER_TYPES.ARTIST) {
