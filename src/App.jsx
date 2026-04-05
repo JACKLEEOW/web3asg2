@@ -11,7 +11,7 @@ import ArtistsView from './views/ArtistsView.jsx'
 import SingleArtistView from './views/SingleArtistView.jsx'
 import GenresView from './views/GenresView.jsx'
 import SingleGenreView from './views/SingleGenreView.jsx'
-
+import PlaylistView from './views/PlaylistView.jsx'
 
 function App() {
   const genres = [{ "genre_id": 102, "genre_name": "alt z" }, { "genre_id": 103, "genre_name": "art pop" }, { "genre_id": 104, "genre_name": "atl hip hop" }, { "genre_id": 105, "genre_name": "boy band" }, { "genre_id": 106, "genre_name": "brostep" }, { "genre_id": 108, "genre_name": "canadian hip hop" }, { "genre_id": 109, "genre_name": "chicago rap" }, { "genre_id": 120, "genre_name": "country" }, { "genre_id": 110, "genre_name": "dance pop" }, { "genre_id": 111, "genre_name": "dfw rap" }, { "genre_id": 112, "genre_name": "emo rap" }, { "genre_id": 113, "genre_name": "folk-pop" }, { "genre_id": 115, "genre_name": "hip hop" }, { "genre_id": 116, "genre_name": "indie pop" }, { "genre_id": 123, "genre_name": "k-pop" }, { "genre_id": 117, "genre_name": "latin" }, { "genre_id": 118, "genre_name": "melodic rap" }, { "genre_id": 124, "genre_name": "modern rock" }, { "genre_id": 119, "genre_name": "pop" }, { "genre_id": 121, "genre_name": "r&b" }];
@@ -25,6 +25,7 @@ function App() {
       <Route path="/artists/:artistId" element={<SingleArtistView />} />
       <Route path="/genres" element={<GenresView />} />
       <Route path="/genres/:genreId" element={<SingleGenreView />} />
+      <Route path="/playlists" element={<PlaylistView />} />
     </Routes>
 
     /*<div>
