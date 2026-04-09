@@ -29,7 +29,7 @@ export const SORT_TYPES = Object.freeze({
     YEAR_DESC : "YEAR_DESC",
     ARTIST_ASC : "ARTIST_ASC",
     ARTIST_DESC : "ARTIST_DESC"
-})
+});
 
 /* -------------------------------------------------------------------------- */
 /*                                Sort Function                               */
@@ -155,10 +155,10 @@ const SongsFilterMain = (props) => {
     }
 
     // Filter Songs
-    const filterSongs = songs.filter(matchFilters)
+    const filterSongs = songs.filter(matchFilters);
 
     // Sort Filtered Songs
-    filterSongs.sort(SORT_METHODS[selectedSort]) 
+    filterSongs.sort(SORT_METHODS[selectedSort]);
 
     return (
         <div>
@@ -178,7 +178,7 @@ const SongsFilterMain = (props) => {
                 setSelectedSort={setSelectedSort}
             />
         </div>
-    )
+    );
 }
 
 export default SongsFilterMain

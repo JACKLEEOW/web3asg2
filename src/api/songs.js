@@ -1,5 +1,5 @@
 import supabase from './supabase'
-import SONGS_SELECT from './shared';
+import {SONGS_SELECT} from './shared';
 
 const ORDER_MAP = {
     id: { column: 'song_id' },

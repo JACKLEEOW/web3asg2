@@ -1,6 +1,5 @@
 import SongRow from "./SongRow.jsx";
-const SongTable = (props) => {
-    const {filteredSongs} = props; // Possibly add other for the song scene switch
+const SongTable = ({filteredSongs}) => {
     return (
         <table>
             <thead>

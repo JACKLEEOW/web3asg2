@@ -1,5 +1,5 @@
 import SelectedFiltersBar from "./SelectedFiltersBar.jsx";
-import SongTable from "./SongTable.jsx";
+import SongTable from "../../SongTable/SongTable.jsx";
 import SortDropDown from "./SortDropdown.jsx";
 
 const MainPanel = (props) => {
