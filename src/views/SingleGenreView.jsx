@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import SongTable from "../components/SongTable/SongTable.jsx"
 import { getSongsByGenre } from "../api/songs.js";
+import { getGenreById } from "../api/genres.js";
 import { useParams } from "react-router-dom";
 
 
@@ -19,13 +20,14 @@ const SingleGenreView = () => {
         setLoading(true);
 
         const songsPromise = getSongsByGenre(genreId);
-        //const genrePromise = getArtistById(genreId);
+        const genrePromise = getGenreById(genreId);
 
-        Promise.all([songsPromise])
+        Promise.all([songsPromise, genrePromise])
             .then(resolves=>{
-                const [songResolve] = resolves;
+                const [songResolve, genreResolve] = resolves;
                 
-                setSongs(songResolve);
+                setSongs(songResolve)
+                setGenre(genreResolve);
 
                 setError(false);
             })
@@ -44,7 +46,7 @@ const SingleGenreView = () => {
 
     return (
         <div>
-            <p>Genre View</p>
+            <h1>{genre?.genre_name}</h1>
             <SongTable filteredSongs={songs}/>
         </div>
     )
