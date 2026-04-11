@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const TYPEWRITER_TEXT =
-    'Welcome to Songsphere, watch your world of music come to life.';
+    'Welcome to Songsphere, where your world of music springs to life.';
 
 const HomeView = () => {
     const [typed, setTyped] = useState('');
