@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import SongTable from "../components/SongTable/SongTable.jsx";
 import PlaylistBadge from "../components/PlaylistBadge.jsx";
+import { useToast } from "../components/Toast/ToastProvider.jsx";
 import { getArtistById } from "../api/artists.js";
 import { getSongsByArtist } from "../api/songs.js";
 import { addSongToPlaylist } from "../api/playlists.js";
 
 const SingleArtistView = ({ selectedPlaylist, refreshPlaylistSongs }) => {
+    const { showToast } = useToast();
     const [songs, setSongs] = useState([]);
     const [artist, setArtist] = useState(null);
     const [error, setError] = useState(false);
@@ -44,13 +46,16 @@ const SingleArtistView = ({ selectedPlaylist, refreshPlaylistSongs }) => {
     }
 
     const handleAddSong = async (songId) => {
-        if (!selectedPlaylist) return alert('Select a playlist first in the Playlists view!');
+        if (!selectedPlaylist) {
+            showToast('Select a playlist first in the Playlists view.', 'error');
+            return;
+        }
         try {
             await addSongToPlaylist(selectedPlaylist.playlist_id, songId);
             await refreshPlaylistSongs();
-            alert(`Song added to ${selectedPlaylist.playlist_name}!`);
+            showToast(`Added to "${selectedPlaylist.playlist_name}"`, 'success');
         } catch (err) {
-            alert(`Failed to add song: ${err.message}`);
+            showToast(err.message, 'error');
         }
     };
 

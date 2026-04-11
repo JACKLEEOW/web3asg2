@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getPlaylists, createPlaylist, deletePlaylist, removeSongFromPlaylist } from '../api/playlists.js';
+import { useToast } from '../components/Toast/ToastProvider.jsx';
 
 const PlaylistView = ({ selectedPlaylist, setSelectedPlaylist, playlistSongs, setPlaylistSongs, refreshPlaylistSongs }) => {
+    const { showToast } = useToast();
     const [playlists, setPlaylists] = useState([]);
     const [newPlaylistName, setNewPlaylistName] = useState('');
     const [loading, setLoading] = useState(true);
@@ -56,8 +59,9 @@ const PlaylistView = ({ selectedPlaylist, setSelectedPlaylist, playlistSongs, se
         try {
             await removeSongFromPlaylist(selectedPlaylist.playlist_id, songId);
             await refreshPlaylistSongs();
+            showToast(`Removed from "${selectedPlaylist.playlist_name}"`, 'success');
         } catch (err) {
-            setError(err.message);
+            showToast(err.message, 'error');
         }
     };
 
@@ -211,9 +215,25 @@ const PlaylistView = ({ selectedPlaylist, setSelectedPlaylist, playlistSongs, se
                                                 <td className="font-medium" style={{ color: 'var(--text-h)' }}>
                                                     {row.songs.title}
                                                 </td>
-                                                <td>{row.songs.artists.artist_name}</td>
+                                                <td>
+                                                    <Link
+                                                        to={`/artists/${row.songs.artists.artist_id}`}
+                                                        className="underline-offset-2 hover:underline transition-all"
+                                                        style={{ color: 'var(--text-h)' }}
+                                                    >
+                                                        {row.songs.artists.artist_name}
+                                                    </Link>
+                                                </td>
                                                 <td>{row.songs.year}</td>
-                                                <td>{row.songs.genres.genre_name}</td>
+                                                <td>
+                                                    <Link
+                                                        to={`/genres/${row.songs.genres.genre_id}`}
+                                                        className="underline-offset-2 hover:underline transition-all"
+                                                        style={{ color: 'var(--text-h)' }}
+                                                    >
+                                                        {row.songs.genres.genre_name}
+                                                    </Link>
+                                                </td>
                                                 <td>
                                                     <button
                                                         onClick={() => handleRemoveSong(row.song_id)}

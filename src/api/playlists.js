@@ -60,8 +60,8 @@ const getPlaylistSongs = async (playlistId) => {
                 song_id,
                 title,
                 year,
-                artists ( artist_name ),
-                genres  ( genre_name  )
+                artists ( artist_id, artist_name ),
+                genres  ( genre_id, genre_name )
             )
         `)
         .eq('playlist_id', ref);

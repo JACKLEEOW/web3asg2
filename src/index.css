@@ -127,3 +127,35 @@ a {
 .ziro-table tbody tr:last-child td {
   border-bottom: none;
 }
+
+/* Toast enter — replays on each showToast (key bumps) */
+@keyframes toast-pop-in {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.toast-pop {
+  animation: toast-pop-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Footer GitHub pills */
+.footer-github-link {
+  color: var(--text-h);
+  border-color: var(--border);
+  background: var(--surface);
+  text-decoration: none;
+}
+.footer-github-link:hover {
+  background: var(--surface-hover);
+  border-color: var(--muted);
+}
