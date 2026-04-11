@@ -1,14 +1,61 @@
-const getPlaylistSongs = (supabase) => async (req, res) => {
-    const ref = Number(req.params.ref);
+import supabase  from './supabase.js';
 
+
+const getPlaylists = async () => {
+    const { data, error } = await supabase
+        .from('playlists')
+        .select('playlist_id, playlist_name');
+    if (error) throw error;
+    return data;
+}
+
+const createPlaylist = async (playlistName) => {
+    const { data, error } = await supabase
+        .from('playlists')
+        .insert({ playlist_name: playlistName });
+    if (error) throw error;
+    return data;
+}
+const removeSongFromPlaylist = async (playlistId, songId) => {
+    const { data, error } = await supabase
+        .from('playlist_songs')
+        .delete()
+        .eq('playlist_id', playlistId)
+        .eq('song_id', songId);
+    if (error) throw error;
+    return data;
+}
+
+const addSongToPlaylist = async (playlistId, songId) => {
+    const { data, error } = await supabase
+        .from('playlist_songs')
+        .insert({ playlist_id: playlistId, song_id: songId });
+    if (error) {
+        if (error.code === '23505') throw new Error('Song is already in this playlist.');
+        throw error;
+    }
+    return data;
+}
+
+const deletePlaylist = async (playlistId) => {
+    const { data, error } = await supabase
+        .from('playlists')
+        .delete()
+        .eq('playlist_id', playlistId);
+    if (error) throw error;
+    return data;
+}
+
+const getPlaylistSongs = async (playlistId) => {
+    const ref = Number(playlistId);
     if (isNaN(ref)) {
-        return res.status(400).json({ error: 'Playlist ID must be a number.' });
+        throw new Error('Playlist ID must be a number.');
     }
 
     const { data, error } = await supabase
-        .from('playlists')
+        .from('playlist_songs')
         .select(`
-            playlist_id,
+            song_id,
             songs (
                 song_id,
                 title,
@@ -19,23 +66,8 @@ const getPlaylistSongs = (supabase) => async (req, res) => {
         `)
         .eq('playlist_id', ref);
 
-    if (error) return res.status(500).json({ error: error.message });
-
-    if (!data.length) {
-        return res.status(404).json({ error: `Playlist ${ref} not found.` });
-    }
-
-    // flatten each row so the response is a clean list of songs
-    const result = data.map(row => ({
-        playlist:    row.playlist_id,
-        song_id:     row.songs.song_id,
-        title:       row.songs.title,
-        artist_name: row.songs.artists.artist_name,
-        genre_name:  row.songs.genres.genre_name,
-        year:        row.songs.year,
-    }));
-
-    res.json(result);
+    if (error) throw error;
+    return data;
 };
 
-module.exports = { getPlaylistSongs };
+export { getPlaylists, createPlaylist, removeSongFromPlaylist, addSongToPlaylist, deletePlaylist, getPlaylistSongs };

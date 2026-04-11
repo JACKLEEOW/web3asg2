@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import SongTable from "../components/SongTable/SongTable.jsx"
 import { getSongsByGenre } from "../api/songs.js";
 import { getGenreById } from "../api/genres.js";
+import { addSongToPlaylist } from "../api/playlists.js";
 import { useParams } from "react-router-dom";
 
 
-const SingleGenreView = () => {
+const SingleGenreView = ({ selectedPlaylist, refreshPlaylistSongs }) => {
     const [songs, setSongs] = useState([]);
     const [genre, setGenre] = useState(null);
     const [error, setError] = useState(false);
@@ -44,10 +45,22 @@ const SingleGenreView = () => {
     if (loading) return <div>Loading...</div>
     if (error) return <div>Something Went Wrong...</div>
 
+    const handleAddSong = async (songId) => {
+        if (!selectedPlaylist) return alert('Select a playlist first in the Playlists view!');
+        try {
+            await addSongToPlaylist(selectedPlaylist.playlist_id, songId);
+            await refreshPlaylistSongs();
+            alert(`Song added to ${selectedPlaylist.playlist_name}!`);
+        } catch (err) {
+            alert(`Failed to add song: ${err.message}`);
+        }
+    };
+
     return (
         <div>
             <h1>{genre?.genre_name}</h1>
-            <SongTable filteredSongs={songs}/>
+            {selectedPlaylist && <p>Adding to: {selectedPlaylist.playlist_name}</p>}
+            <SongTable filteredSongs={songs} onAddSong={handleAddSong}/>
         </div>
     )
 };

@@ -1,5 +1,5 @@
 import SongRow from "./SongRow.jsx";
-const SongTable = ({filteredSongs}) => {
+const SongTable = ({filteredSongs, onAddSong}) => {
     return (
         <table>
             <thead>
@@ -11,7 +11,7 @@ const SongTable = ({filteredSongs}) => {
                 </tr>
             </thead>
             <tbody>
-                {filteredSongs.map((song, index) => ( <SongRow key={index} song={song}/> ))}
+                {filteredSongs.map((song, index) => ( <SongRow key={index} song={song} onAddSong={onAddSong}/> ))}
             </tbody>
         </table>
     );
