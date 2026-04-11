@@ -5,7 +5,6 @@ import { refreshPlaylistSongs as fetchPlaylistSongs } from './utils/playlistUtil
 // import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
 import SongsFilterMain from './components/songsFilter/SongsFilterMain.jsx'
-import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import HomeView from './views/HomeView.jsx'
 import LoginView from './views/LoginView.jsx'
@@ -29,7 +28,7 @@ function App() {
 
   return (
     <>
-    <Header isLoggedIn={isLoggedin} setIsLoggedIn={setIsLoggedIn} selectedPlaylist={selectedPlaylist} />
+    <Header isLoggedIn={isLoggedin} setIsLoggedIn={setIsLoggedIn} selectedPlaylist={selectedPlaylist} playlistSongCount={playlistSongs.length} />
     <Routes>
       <Route path="/" element={<HomeView />} />
       <Route path="/login" element={<LoginView setIsLoggedIn={setIsLoggedIn} />} />
