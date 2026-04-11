@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getAllArtists } from '../api/artists';
 import { Link } from 'react-router-dom';
+import AudioLevelLoader from '../components/AudioLevelLoader.jsx';
+import { withMinDelay } from '../utils/withMinDelay.js';
 
 const ArtistsView = () => {
     const [artists, setArtists] = useState([]);
@@ -10,7 +12,7 @@ const ArtistsView = () => {
     useEffect(() => {
         const fetchArtists = async () => {
             try {
-                const data = await getAllArtists();
+                const data = await withMinDelay(getAllArtists());
                 setArtists(data);
             } catch (err) {
                 setError(err);
@@ -23,8 +25,8 @@ const ArtistsView = () => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-[60vh]">
-                <p className="text-[#6d8692] text-base animate-pulse">Loading artists...</p>
+            <div className="flex items-center justify-center min-h-[60vh]" style={{ background: 'var(--bg)' }}>
+                <AudioLevelLoader label="Loading artists" />
             </div>
         );
     }

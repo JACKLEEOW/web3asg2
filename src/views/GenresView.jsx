@@ -1,6 +1,8 @@
 import { getAllGenres } from "../api/genres.js";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import AudioLevelLoader from "../components/AudioLevelLoader.jsx";
+import { withMinDelay } from "../utils/withMinDelay.js";
 
 // Cycling palette of muted dark tones for genre tile placeholders
 const TILE_COLORS = [
@@ -14,7 +16,7 @@ const GenresView = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        getAllGenres()
+        withMinDelay(getAllGenres())
             .then(setGenres)
             .catch(setError)
             .finally(() => setLoading(false));
@@ -22,8 +24,8 @@ const GenresView = () => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-[60vh]">
-                <p style={{ color: 'var(--muted)' }} className="animate-pulse">Loading genres...</p>
+            <div className="flex items-center justify-center min-h-[60vh]" style={{ background: 'var(--bg)' }}>
+                <AudioLevelLoader label="Loading genres" />
             </div>
         );
     }

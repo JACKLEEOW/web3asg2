@@ -159,3 +159,61 @@ a {
   background: var(--surface-hover);
   border-color: var(--muted);
 }
+
+/* Audio-style loading bars — uneven heights + staggered wave */
+.audio-level-loader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+  height: 48px;
+}
+
+.audio-level-loader__bar {
+  width: 5px;
+  border-radius: 999px;
+  transform-origin: bottom center;
+  background: linear-gradient(to top, var(--muted), var(--accent));
+  animation: audio-wave 0.95s ease-in-out infinite;
+}
+
+@keyframes audio-wave {
+  0%,
+  100% {
+    transform: scaleY(0.22);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.audio-level-loader__bar:nth-child(1) {
+  height: 14px;
+  animation-delay: 0s;
+}
+.audio-level-loader__bar:nth-child(2) {
+  height: 28px;
+  animation-delay: 0.1s;
+}
+.audio-level-loader__bar:nth-child(3) {
+  height: 44px;
+  animation-delay: 0.2s;
+}
+.audio-level-loader__bar:nth-child(4) {
+  height: 22px;
+  animation-delay: 0.3s;
+}
+.audio-level-loader__bar:nth-child(5) {
+  height: 36px;
+  animation-delay: 0.4s;
+}
+.audio-level-loader__bar:nth-child(6) {
+  height: 18px;
+  animation-delay: 0.5s;
+}
+.audio-level-loader__bar:nth-child(7) {
+  height: 32px;
+  animation-delay: 0.6s;
+}

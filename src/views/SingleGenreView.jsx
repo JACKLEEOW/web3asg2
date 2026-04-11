@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import SongTable from "../components/SongTable/SongTable.jsx";
 import PlaylistBadge from "../components/PlaylistBadge.jsx";
 import { useToast } from "../components/Toast/ToastProvider.jsx";
+import AudioLevelLoader from "../components/AudioLevelLoader.jsx";
+import { withMinDelay } from "../utils/withMinDelay.js";
 import { getSongsByGenre } from "../api/songs.js";
 import { getGenreById } from "../api/genres.js";
 import { addSongToPlaylist } from "../api/playlists.js";
@@ -20,7 +22,7 @@ const SingleGenreView = ({ selectedPlaylist, refreshPlaylistSongs }) => {
 
     useEffect(() => {
         setLoading(true);
-        Promise.all([getSongsByGenre(genreId), getGenreById(genreId)])
+        withMinDelay(Promise.all([getSongsByGenre(genreId), getGenreById(genreId)]))
             .then(([songData, genreData]) => {
                 setSongs(songData);
                 setGenre(genreData);
@@ -32,8 +34,8 @@ const SingleGenreView = ({ selectedPlaylist, refreshPlaylistSongs }) => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-[60vh]">
-                <p style={{ color: 'var(--muted)' }} className="animate-pulse">Loading...</p>
+            <div className="flex items-center justify-center min-h-[60vh]" style={{ background: 'var(--bg)' }}>
+                <AudioLevelLoader label="Loading genre" />
             </div>
         );
     }
@@ -94,7 +96,7 @@ const SingleGenreView = ({ selectedPlaylist, refreshPlaylistSongs }) => {
             {/* Content */}
             <div className="px-8 py-6 flex flex-col gap-5">
                 <PlaylistBadge selectedPlaylist={selectedPlaylist} />
-                <SongTable filteredSongs={songs} onAddSong={handleAddSong} />
+                <SongTable filteredSongs={songs} onAddSong={handleAddSong} linkArtist />
             </div>
         </div>
     );

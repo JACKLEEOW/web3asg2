@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { getPlaylists, createPlaylist, deletePlaylist, removeSongFromPlaylist } from '../api/playlists.js';
 import { useToast } from '../components/Toast/ToastProvider.jsx';
+import AudioLevelLoader from '../components/AudioLevelLoader.jsx';
+import { withMinDelay } from '../utils/withMinDelay.js';
 
 const PlaylistView = ({ selectedPlaylist, setSelectedPlaylist, playlistSongs, setPlaylistSongs, refreshPlaylistSongs }) => {
     const { showToast } = useToast();
@@ -9,10 +11,15 @@ const PlaylistView = ({ selectedPlaylist, setSelectedPlaylist, playlistSongs, se
     const [newPlaylistName, setNewPlaylistName] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const isInitialPlaylistFetch = useRef(true);
 
     const fetchPlaylists = async () => {
         try {
-            const data = await getPlaylists();
+            const promise = getPlaylists();
+            const data = isInitialPlaylistFetch.current
+                ? await withMinDelay(promise)
+                : await promise;
+            isInitialPlaylistFetch.current = false;
             setPlaylists(data);
         } catch (err) {
             setError(err.message);
@@ -67,8 +74,8 @@ const PlaylistView = ({ selectedPlaylist, setSelectedPlaylist, playlistSongs, se
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-[60vh]">
-                <p style={{ color: 'var(--muted)' }} className="animate-pulse">Loading playlists...</p>
+            <div className="flex items-center justify-center min-h-[60vh]" style={{ background: 'var(--bg)' }}>
+                <AudioLevelLoader label="Loading playlists" />
             </div>
         );
     }

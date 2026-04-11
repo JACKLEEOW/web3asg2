@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import SongTable from "../components/SongTable/SongTable.jsx";
 import PlaylistBadge from "../components/PlaylistBadge.jsx";
 import { useToast } from "../components/Toast/ToastProvider.jsx";
+import AudioLevelLoader from "../components/AudioLevelLoader.jsx";
+import { withMinDelay } from "../utils/withMinDelay.js";
 import { getArtistById } from "../api/artists.js";
 import { getSongsByArtist } from "../api/songs.js";
 import { addSongToPlaylist } from "../api/playlists.js";
@@ -20,7 +22,7 @@ const SingleArtistView = ({ selectedPlaylist, refreshPlaylistSongs }) => {
 
     useEffect(() => {
         setLoading(true);
-        Promise.all([getSongsByArtist(artistId), getArtistById(artistId)])
+        withMinDelay(Promise.all([getSongsByArtist(artistId), getArtistById(artistId)]))
             .then(([songData, artistData]) => {
                 setSongs(songData);
                 setArtist(artistData);
@@ -32,8 +34,8 @@ const SingleArtistView = ({ selectedPlaylist, refreshPlaylistSongs }) => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-[60vh]">
-                <p style={{ color: 'var(--muted)' }} className="animate-pulse">Loading...</p>
+            <div className="flex items-center justify-center min-h-[60vh]" style={{ background: 'var(--bg)' }}>
+                <AudioLevelLoader label="Loading artist" />
             </div>
         );
     }
