@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import AboutUsModal from './AboutUsModal.jsx';
 
 //https://icons.getbootstrap.com/icons/github/
 const GitHubMark = () => (
@@ -16,33 +18,45 @@ const GitHubMark = () => (
 const linkClass =
     'footer-github-link inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors duration-150';
 
-const Footer = () => (
-    <footer
-        className="mt-auto flex flex-wrap items-center justify-center gap-3 px-4 py-3"
-        style={{
-            borderTop: '1px solid var(--border)',
-            background: 'var(--bg)',
-        }}
-    >
-        <a
-            href="https://github.com/JACKLEEOW"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={linkClass}
+const Footer = () => {
+    const [aboutOpen, setAboutOpen] = useState(false);
+
+    return (
+        <footer
+            className="mt-auto flex flex-wrap items-center justify-center gap-3 px-4 py-3"
+            style={{
+                borderTop: '1px solid var(--border)',
+                background: 'var(--bg)',
+            }}
         >
-            <GitHubMark />
-            Jack
-        </a>
-        <a
-            href="https://github.com/Anthony-Muma"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={linkClass}
-        >
-            <GitHubMark />
-            Anthony
-        </a>
-    </footer>
-);
+            <button
+                type="button"
+                onClick={() => setAboutOpen(true)}
+                className={`${linkClass} cursor-pointer font-[inherit]`}
+            >
+                About us
+            </button>
+            <a
+                href="https://github.com/JACKLEEOW"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={linkClass}
+            >
+                <GitHubMark />
+                Jack
+            </a>
+            <a
+                href="https://github.com/Anthony-Muma"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={linkClass}
+            >
+                <GitHubMark />
+                Anthony
+            </a>
+            <AboutUsModal open={aboutOpen} onClose={() => setAboutOpen(false)} />
+        </footer>
+    );
+};
 
 export default Footer;
