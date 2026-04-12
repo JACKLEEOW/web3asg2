@@ -25,6 +25,15 @@ const Header = ({ isLoggedIn, setIsLoggedIn, selectedPlaylist, playlistSongCount
             zIndex: 50,
         }} className="flex items-center gap-2 px-6 h-14">
 
+            <Link /* Home logo */
+                to="/"
+                aria-label="Home"
+                title="Home"
+                className="header-home-note mr-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xl leading-none"
+            >
+                ♪
+            </Link>
+
             {/* Nav links */}
             <nav className="flex items-center gap-1">
                 {NAV_LINKS.map(({ to, label }) => {

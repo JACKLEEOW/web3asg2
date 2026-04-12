@@ -160,6 +160,61 @@ a {
   border-color: var(--muted);
 }
 
+/* Header ♪ home — hover/focus = brighten + grow + settle (nav-adjacent feel); click = :active pulse */
+.header-home-note {
+  color: var(--muted);
+  text-decoration: none;
+  transform-origin: center;
+}
+.header-home-note:hover,
+.header-home-note:focus-visible {
+  animation: home-note-hover-pulse 0.55s ease-out;
+}
+.header-home-note:active {
+  animation: home-note-active-pulse 0.32s ease-out;
+}
+
+@keyframes home-note-hover-pulse {
+  0% {
+    color: var(--muted);
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  40% {
+    color: var(--text-h);
+    transform: scale(1.2);
+    filter: brightness(1.35);
+  }
+  75% {
+    color: var(--accent);
+    transform: scale(0.92);
+    filter: brightness(1.1);
+  }
+  100% {
+    color: var(--muted);
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes home-note-active-pulse {
+  0% {
+    color: var(--muted);
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    color: var(--text-h);
+    transform: scale(1.14);
+    filter: brightness(1.25);
+  }
+  100% {
+    color: var(--muted);
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
 /* Audio-style loading bars — uneven heights + staggered wave */
 .audio-level-loader {
   display: flex;
