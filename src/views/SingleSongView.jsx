@@ -190,10 +190,10 @@ const SingleSongView = ({ selectedPlaylist, refreshPlaylistSongs }) => {
                         </h2>
                         <p className="text-sm leading-relaxed" style={{ color: "var(--text)" }}>
                             Radar compares energy, danceability, liveness, valence, acousticness, speechiness, and
-                            loudness, each drawn on a common ring to scale.
+                            loudness on a 0–100 scale.
                         </p>
                     </div>
-                    <SongAnalyticsRadar key={song.song_id} song={song} size={320} />
+                    <SongAnalyticsRadar key={song.song_id} song={song} />
                 </section>
 
                 <section className="flex flex-col gap-4">
