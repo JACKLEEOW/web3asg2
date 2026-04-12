@@ -151,6 +151,7 @@ const PlaylistView = ({ selectedPlaylist, setSelectedPlaylist, playlistSongs, se
                                         }}
                                     >
                                         <button
+                                            type="button"
                                             onClick={() => handleSelectPlaylist(playlist)}
                                             className="flex-1 text-left text-sm font-medium truncate"
                                             style={{ color: isActive ? 'var(--text-h)' : 'var(--text)', background: 'none', border: 'none', cursor: 'pointer' }}
@@ -159,6 +160,7 @@ const PlaylistView = ({ selectedPlaylist, setSelectedPlaylist, playlistSongs, se
                                             {playlist.playlist_name}
                                         </button>
                                         <button
+                                            type="button"
                                             onClick={() => handleDeletePlaylist(playlist.playlist_id)}
                                             className="btn btn-danger btn-sm opacity-0 group-hover:opacity-100 transition-opacity"
                                         >
@@ -249,6 +251,7 @@ const PlaylistView = ({ selectedPlaylist, setSelectedPlaylist, playlistSongs, se
                                                 </td>
                                                 <td>
                                                     <button
+                                                        type="button"
                                                         onClick={() => handleRemoveSong(row.song_id)}
                                                         className="btn btn-danger btn-sm"
                                                     >
