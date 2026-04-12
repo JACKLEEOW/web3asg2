@@ -62,7 +62,7 @@ const GenresView = () => {
                     {genres.map((genre, i) => (
                         <Link
                             key={genre.genre_id}
-                            to={`/genres/${genre.genre_id}`}
+                            to={`/browse?genre=${genre.genre_id}`}
                             className="group flex flex-col rounded-md overflow-hidden transition-opacity duration-200 cursor-pointer hover:opacity-80"
                         >
                             {/* Placeholder square */}

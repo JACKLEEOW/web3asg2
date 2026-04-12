@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import MainPanel from "./mainPanel/MainPanel.jsx";
 import FilterPanel from "./filterPanel/FilterPanel.jsx";
 
@@ -31,6 +31,9 @@ export const SORT_TYPES = Object.freeze({
     ARTIST_DESC : "ARTIST_DESC"
 });
 
+/** Years present in the assignment dataset */
+const FILTER_YEARS = [2016, 2017, 2018, 2019];
+
 /* -------------------------------------------------------------------------- */
 /*                                Sort Function                               */
 /* -------------------------------------------------------------------------- */
@@ -53,12 +56,15 @@ const SORT_METHODS = Object.freeze({
     ARTIST_DESC : artistDesc
 })
 
-const SongsFilterMain = (props) => {
-    const {openArtistPage, openSongPage, addToPlayList} = props
+const parseOptionalId = (v) => {
+    if (v == null || v === "") return null;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : null;
+};
 
-    // Assuming songs, artists, and genres come from props
-    const {songs, artists, genres} = props;
-    const years = [2016, 2017, 2018, 2019]; // Within A1, these were the ONLY years we had
+const SongsFilterMain = (props) => {
+    const { songs, artists, genres, onAddSong, linkArtist = false, initialArtistId, initialGenreId } = props;
+    const lastBrowseKeyRef = useRef("");
 
     // Sort TODO:
     const [selectedSort, setSelectedSort] = useState(SORT_TYPES.TITLE_ASC);
@@ -66,12 +72,79 @@ const SongsFilterMain = (props) => {
     // Filter Boxes 
     const [titleFilterBox, setTitleFilterBox] = useState(new FilterBox(false, FILTER_TYPES.TITLE, "", null));
 
-    const [yearFilterBoxes, setYearFilterBoxes] = useState(years.map(t => (new FilterBox(false, FILTER_TYPES.YEAR, t, t))));
-    const [artistFilterBoxes, setArtistFilterBoxes] = useState(artists.map(t => (new FilterBox(false, FILTER_TYPES.ARTIST, t.artist_id, t.artist_name))));
-    const [genreFilterBoxes, setGenreFilterBoxes] = useState(genres.map(t => (new FilterBox(false, FILTER_TYPES.GENRE, t.genre_id, t.genre_name))));
-    
-    // Filter Tags
+    const [yearFilterBoxes, setYearFilterBoxes] = useState(() =>
+        FILTER_YEARS.map((y) => new FilterBox(false, FILTER_TYPES.YEAR, y, y))
+    );
+    const [artistFilterBoxes, setArtistFilterBoxes] = useState([]);
+    const [genreFilterBoxes, setGenreFilterBoxes] = useState([]);
+
     const [activeFilterTags, setActiveFilterTags] = useState([]);
+
+    useEffect(() => {
+        const a = parseOptionalId(initialArtistId);
+        setArtistFilterBoxes(
+            (artists || []).map(
+                (t) =>
+                    new FilterBox(
+                        a != null && t.artist_id === a,
+                        FILTER_TYPES.ARTIST,
+                        t.artist_id,
+                        t.artist_name
+                    )
+            )
+        );
+    }, [artists, initialArtistId]);
+
+    useEffect(() => {
+        const g = parseOptionalId(initialGenreId);
+        setGenreFilterBoxes(
+            (genres || []).map(
+                (t) =>
+                    new FilterBox(
+                        g != null && t.genre_id === g,
+                        FILTER_TYPES.GENRE,
+                        t.genre_id,
+                        t.genre_name
+                    )
+            )
+        );
+    }, [genres, initialGenreId]);
+
+    useEffect(() => {
+        const a = parseOptionalId(initialArtistId);
+        const g = parseOptionalId(initialGenreId);
+        const browseKey = `${initialArtistId ?? ""}:${initialGenreId ?? ""}`;
+
+        if (a == null && g == null) {
+            if (lastBrowseKeyRef.current !== "") {
+                lastBrowseKeyRef.current = "";
+                setActiveFilterTags((prev) =>
+                    prev.filter(
+                        (t) => t.type !== FILTER_TYPES.ARTIST && t.type !== FILTER_TYPES.GENRE
+                    )
+                );
+            }
+            return;
+        }
+
+        const artistName = a != null ? (artists || []).find((x) => x.artist_id === a)?.artist_name : null;
+        const genreName = g != null ? (genres || []).find((x) => x.genre_id === g)?.genre_name : null;
+        if (a != null && !artistName) return;
+        if (g != null && !genreName) return;
+
+        setActiveFilterTags((prev) => {
+            const rest = prev.filter((t) => {
+                if (a != null && t.type === FILTER_TYPES.ARTIST) return false;
+                if (g != null && t.type === FILTER_TYPES.GENRE) return false;
+                return true;
+            });
+            const tags = [];
+            if (a != null && artistName) tags.push(new FilterTag(FILTER_TYPES.ARTIST, a, artistName));
+            if (g != null && genreName) tags.push(new FilterTag(FILTER_TYPES.GENRE, g, genreName));
+            return [...rest, ...tags];
+        });
+        lastBrowseKeyRef.current = browseKey;
+    }, [initialArtistId, initialGenreId, artists, genres]);
 
     // Using filter boxes
     const matchFilters = (song) => {
@@ -123,9 +196,6 @@ const SongsFilterMain = (props) => {
 
     const updateFilterHandler = (type, property, displayName, activation = true) => {
         
-        // Update filter boxes
-        console.log(type, property, displayName, activation);
-
         if (type === FILTER_TYPES.TITLE) {
             setTitleFilterBox(prev => ({...prev, property: property, active: activation}));
         } else if (type === FILTER_TYPES.YEAR) {
@@ -155,28 +225,46 @@ const SongsFilterMain = (props) => {
     }
 
     // Filter Songs
-    const filterSongs = songs.filter(matchFilters);
+    const filterSongs = (songs ?? []).filter(matchFilters);
 
     // Sort Filtered Songs
     filterSongs.sort(SORT_METHODS[selectedSort]);
 
     return (
-        <div>
-            <FilterPanel
-                titleFilterBox={titleFilterBox}
-                yearFilterBoxes={yearFilterBoxes}
-                artistFilterBoxes={artistFilterBoxes} 
-                genreFilterBoxes={genreFilterBoxes}
-                updateFilterHandler={updateFilterHandler}
-            />  
-            <MainPanel 
-                filteredSongs={filterSongs}
-                activeFilterTags={activeFilterTags}
-                updateFilterHandler={updateFilterHandler}
-                clearFilterHandler={clearFilterHandler}
-                selectedSort={selectedSort} 
-                setSelectedSort={setSelectedSort}
-            />
+        <div
+            className="flex min-h-0 flex-1 flex-col md:flex-row"
+            style={{ minHeight: 'min(70vh, 42rem)' }}
+        >
+            <aside
+                className="flex w-full shrink-0 flex-col gap-4 border-b border-[var(--border)] p-6 md:max-h-[calc(100svh-12rem)] md:w-72 md:overflow-y-auto md:border-r md:border-b-0"
+                style={{ background: 'var(--bg)' }}
+            >
+                <p
+                    className="text-xs font-semibold uppercase tracking-widest"
+                    style={{ color: 'var(--muted)' }}
+                >
+                    Filters
+                </p>
+                <FilterPanel
+                    titleFilterBox={titleFilterBox}
+                    yearFilterBoxes={yearFilterBoxes}
+                    artistFilterBoxes={artistFilterBoxes}
+                    genreFilterBoxes={genreFilterBoxes}
+                    updateFilterHandler={updateFilterHandler}
+                />
+            </aside>
+            <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto p-6 md:p-8">
+                <MainPanel
+                    filteredSongs={filterSongs}
+                    activeFilterTags={activeFilterTags}
+                    updateFilterHandler={updateFilterHandler}
+                    clearFilterHandler={clearFilterHandler}
+                    selectedSort={selectedSort}
+                    setSelectedSort={setSelectedSort}
+                    onAddSong={onAddSong}
+                    linkArtist={linkArtist}
+                />
+            </main>
         </div>
     );
 }

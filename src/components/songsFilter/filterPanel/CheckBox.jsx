@@ -1,21 +1,33 @@
-// function FilterBox (active, type, property, boxName) {
-//     this.active = active;
-//     this.type = type;
-//     this.property = property; // The value that gets compared (e.g. id)
-//     this.boxName = boxName; // The value that is displayed to the user (e.g. name)
-// }
-
-// const updateFilterHandler = (type, property, displayName, activation = true) => {
 const CheckBox = (props) => {
-    const {filterBox, updateFilterHandler} = props;
+    const { filterBox, updateFilterHandler } = props;
     return (
-        <label>
-            <input type="checkbox" checked={filterBox.active} 
-                onChange={()=>updateFilterHandler(filterBox.type, filterBox.property, filterBox.boxName, !filterBox.active)}
+        <label
+            className="flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-sm transition-colors"
+            style={{ color: 'var(--text)' }}
+            onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'var(--surface-hover)';
+            }}
+            onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+            }}
+        >
+            <input
+                type="checkbox"
+                checked={filterBox.active}
+                className="h-3.5 w-3.5 shrink-0 cursor-pointer rounded border"
+                style={{ borderColor: 'var(--border)', accentColor: 'var(--accent)' }}
+                onChange={() =>
+                    updateFilterHandler(
+                        filterBox.type,
+                        filterBox.property,
+                        filterBox.boxName,
+                        !filterBox.active
+                    )
+                }
             />
-            {filterBox.boxName}
+            <span className="min-w-0 truncate leading-snug">{filterBox.boxName}</span>
         </label>
-    )
-}
+    );
+};
 
 export default CheckBox;

@@ -5,7 +5,6 @@ import { refreshPlaylistSongs as fetchPlaylistSongs } from './utils/playlistUtil
 // import reactLogo from './assets/react.svg'
 // import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
-import SongsFilterMain from './components/songsFilter/SongsFilterMain.jsx'
 import { Routes, Route } from 'react-router-dom'
 import HomeView from './views/HomeView.jsx'
 import LoginView from './views/LoginView.jsx'
@@ -14,6 +13,7 @@ import SingleArtistView from './views/SingleArtistView.jsx'
 import GenresView from './views/GenresView.jsx'
 import SingleGenreView from './views/SingleGenreView.jsx'
 import PlaylistView from './views/PlaylistView.jsx'
+import BrowseView from './views/BrowseView.jsx'
 
 
 function App() {
@@ -34,6 +34,7 @@ function App() {
           <Route path="/artists" element={<ArtistsView />} />
           <Route path="/artists/:artistId" element={<SingleArtistView selectedPlaylist={selectedPlaylist} refreshPlaylistSongs={refreshPlaylistSongs} />} />
           <Route path="/genres" element={<GenresView />} />
+          <Route path="/browse" element={<BrowseView selectedPlaylist={selectedPlaylist} refreshPlaylistSongs={refreshPlaylistSongs} />} />
           <Route path="/genres/:genreId" element={<SingleGenreView selectedPlaylist={selectedPlaylist} refreshPlaylistSongs={refreshPlaylistSongs} />} />
           <Route path="/playlists" element={<PlaylistView selectedPlaylist={selectedPlaylist} setSelectedPlaylist={setSelectedPlaylist} playlistSongs={playlistSongs} setPlaylistSongs={setPlaylistSongs} refreshPlaylistSongs={refreshPlaylistSongs} />} />
         </Routes>

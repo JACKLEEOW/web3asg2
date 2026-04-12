@@ -3,24 +3,48 @@ import SongTable from "../../SongTable/SongTable.jsx";
 import SortDropDown from "./SortDropdown.jsx";
 
 const MainPanel = (props) => {
-    const {filteredSongs, activeFilterTags, updateFilterHandler, clearFilterHandler, selectedSort, setSelectedSort} = props;
+    const {
+        filteredSongs,
+        activeFilterTags,
+        updateFilterHandler,
+        clearFilterHandler,
+        selectedSort,
+        setSelectedSort,
+        onAddSong,
+        linkArtist,
+    } = props;
 
     return (
-        <div>
-            <SortDropDown
-                selectedSort={selectedSort}
-                setSelectedSort={setSelectedSort}
-            />
-            <SelectedFiltersBar 
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p
+                        className="text-xs font-semibold uppercase tracking-widest"
+                        style={{ color: 'var(--muted)' }}
+                    >
+                        Results
+                    </p>
+                    <p className="mt-1 text-sm" style={{ color: 'var(--muted)' }}>
+                        {filteredSongs.length}{" "}
+                        {filteredSongs.length === 1 ? "song" : "songs"} shown
+                    </p>
+                </div>
+                <SortDropDown selectedSort={selectedSort} setSelectedSort={setSelectedSort} />
+            </div>
+            <SelectedFiltersBar
                 activeFilterTags={activeFilterTags}
                 updateFilterHandler={updateFilterHandler}
                 clearFilterHandler={clearFilterHandler}
             />
-            <SongTable 
-                filteredSongs={filteredSongs}
-            />
+            <div className="min-w-0 overflow-x-auto">
+                <SongTable
+                    filteredSongs={filteredSongs}
+                    onAddSong={onAddSong}
+                    linkArtist={linkArtist}
+                />
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default MainPanel
+export default MainPanel;

@@ -61,7 +61,7 @@ const ArtistsView = () => {
                     {artists.map((artist) => (
                         <Link
                             key={artist.artist_id}
-                            to={`/artists/${artist.artist_id}`}
+                            to={`/browse?artist=${artist.artist_id}`}
                             className="group flex flex-col rounded-md overflow-hidden transition-colors duration-200 cursor-pointer"
                             style={{ background: 'var(--surface)' }}
                             onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}

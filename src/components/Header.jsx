@@ -4,6 +4,7 @@ const NAV_LINKS = [
     { to: '/',          label: 'Home' },
     { to: '/artists',   label: 'Artists' },
     { to: '/genres',    label: 'Genres' },
+    { to: '/browse',    label: 'Browse' },
     { to: '/playlists', label: 'Playlists' },
 ];
 

@@ -1,11 +1,11 @@
 const ClearTag = (props) => {
-    const {clearFilterHandler} = props;
+    const { clearFilterHandler } = props;
 
     return (
-        <button onClick={()=>(clearFilterHandler())}> 
-            Clear Filters 
+        <button type="button" onClick={() => clearFilterHandler()} className="btn btn-ghost btn-sm">
+            Clear all
         </button>
     );
-}
+};
 
 export default ClearTag;
