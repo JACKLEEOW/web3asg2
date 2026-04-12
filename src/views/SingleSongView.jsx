@@ -9,7 +9,7 @@ import { getSongById, getAllSongs } from "../api/songs.js";
 import { addSongToPlaylist } from "../api/playlists.js";
 import { findRelatedSongsByTopAnalytics, getTopAnalyticLabels } from "../utils/relatedSongs.js";
 
-/** DB may store duration in ms (large) or seconds (small integer). */
+
 function formatSongDuration(raw) {
     const n = Number(raw);
     if (!Number.isFinite(n) || n <= 0) return "—";
