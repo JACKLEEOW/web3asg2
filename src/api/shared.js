@@ -12,7 +12,7 @@ const SONGS_SELECT = `
     acousticness,
     speechiness,
     popularity,
-    artists ( artist_id, artist_name ),
+    artists ( artist_id, artist_name, artist_image_url ),
     genres  ( genre_id,  genre_name  )
 `;
 

@@ -119,7 +119,7 @@ const SingleArtistView = ({ selectedPlaylist, refreshPlaylistSongs }) => {
             {/* Content */}
             <div className="px-8 py-6 flex flex-col gap-5">
                 <PlaylistBadge selectedPlaylist={selectedPlaylist} />
-                <SongTable filteredSongs={songs} onAddSong={handleAddSong} />
+                <SongTable filteredSongs={songs} onAddSong={handleAddSong} linkSong />
             </div>
         </div>
     );

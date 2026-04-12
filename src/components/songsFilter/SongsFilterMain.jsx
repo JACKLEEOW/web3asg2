@@ -11,7 +11,16 @@ import { useBrowseQueryFilters } from "./filterUtils/useBrowseQueryFilters.js";
 export { FILTER_TYPES, SORT_TYPES } from "./filterUtils/filterConstants.js";
 
 const SongsFilterMain = (props) => {
-    const { songs, artists, genres, onAddSong, linkArtist = false, initialArtistId, initialGenreId } = props;
+    const {
+        songs,
+        artists,
+        genres,
+        onAddSong,
+        linkArtist = false,
+        linkSong = false,
+        initialArtistId,
+        initialGenreId,
+    } = props;
 
     const [selectedSort, setSelectedSort] = useState(SORT_TYPES.TITLE_ASC);
 
@@ -102,6 +111,7 @@ const SongsFilterMain = (props) => {
                     setSelectedSort={setSelectedSort}
                     onAddSong={onAddSong}
                     linkArtist={linkArtist}
+                    linkSong={linkSong}
                 />
             </main>
         </div>

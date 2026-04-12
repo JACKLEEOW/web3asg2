@@ -219,8 +219,14 @@ const PlaylistView = ({ selectedPlaylist, setSelectedPlaylist, playlistSongs, se
                                         {playlistSongs.map((row, i) => (
                                             <tr key={row.song_id}>
                                                 <td style={{ color: 'var(--muted)', width: '2.5rem' }}>{i + 1}</td>
-                                                <td className="font-medium" style={{ color: 'var(--text-h)' }}>
-                                                    {row.songs.title}
+                                                <td>
+                                                    <Link
+                                                        to={`/songs/${row.song_id}`}
+                                                        className="font-medium underline-offset-2 hover:underline transition-all"
+                                                        style={{ color: 'var(--text-h)' }}
+                                                    >
+                                                        {row.songs.title}
+                                                    </Link>
                                                 </td>
                                                 <td>
                                                     <Link

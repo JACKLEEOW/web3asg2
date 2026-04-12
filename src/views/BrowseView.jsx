@@ -116,6 +116,7 @@ const BrowseView = ({ selectedPlaylist, refreshPlaylistSongs }) => {
                     initialGenreId={initialGenreId}
                     onAddSong={handleAddSong}
                     linkArtist
+                    linkSong
                 />
             </div>
         </div>

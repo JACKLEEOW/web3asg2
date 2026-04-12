@@ -12,6 +12,7 @@ const MainPanel = (props) => {
         setSelectedSort,
         onAddSong,
         linkArtist,
+        linkSong = false,
     } = props;
 
     return (
@@ -41,6 +42,7 @@ const MainPanel = (props) => {
                     filteredSongs={filteredSongs}
                     onAddSong={onAddSong}
                     linkArtist={linkArtist}
+                    linkSong={linkSong}
                 />
             </div>
         </div>

@@ -14,6 +14,7 @@ import GenresView from './views/GenresView.jsx'
 import SingleGenreView from './views/SingleGenreView.jsx'
 import PlaylistView from './views/PlaylistView.jsx'
 import BrowseView from './views/BrowseView.jsx'
+import SingleSongView from './views/SingleSongView.jsx'
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/artists/:artistId" element={<SingleArtistView selectedPlaylist={selectedPlaylist} refreshPlaylistSongs={refreshPlaylistSongs} />} />
           <Route path="/genres" element={<GenresView />} />
           <Route path="/browse" element={<BrowseView selectedPlaylist={selectedPlaylist} refreshPlaylistSongs={refreshPlaylistSongs} />} />
+          <Route path="/songs/:songId" element={<SingleSongView selectedPlaylist={selectedPlaylist} refreshPlaylistSongs={refreshPlaylistSongs} />} />
           <Route path="/genres/:genreId" element={<SingleGenreView selectedPlaylist={selectedPlaylist} refreshPlaylistSongs={refreshPlaylistSongs} />} />
           <Route path="/playlists" element={<PlaylistView selectedPlaylist={selectedPlaylist} setSelectedPlaylist={setSelectedPlaylist} playlistSongs={playlistSongs} setPlaylistSongs={setPlaylistSongs} refreshPlaylistSongs={refreshPlaylistSongs} />} />
         </Routes>

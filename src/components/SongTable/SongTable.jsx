@@ -1,6 +1,6 @@
 import SongRow from "./SongRow.jsx";
 
-const SongTable = ({ filteredSongs, onAddSong, linkArtist = false }) => {
+const SongTable = ({ filteredSongs, onAddSong, linkArtist = false, linkSong = false }) => {
     if (!filteredSongs?.length) {
         return <p className="text-sm py-4" style={{ color: 'var(--muted)' }}>No songs found.</p>;
     }
@@ -24,6 +24,7 @@ const SongTable = ({ filteredSongs, onAddSong, linkArtist = false }) => {
                         onAddSong={onAddSong}
                         index={index}
                         linkArtist={linkArtist}
+                        linkSong={linkSong}
                     />
                 ))}
             </tbody>

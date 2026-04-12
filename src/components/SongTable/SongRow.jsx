@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const SongRow = ({ song, onAddSong, index, linkArtist }) => {
+const SongRow = ({ song, onAddSong, index, linkArtist, linkSong = false }) => {
     const artistCell = linkArtist ? (
         <Link
             to={`/artists/${song.artists.artist_id}`}
@@ -13,10 +13,25 @@ const SongRow = ({ song, onAddSong, index, linkArtist }) => {
         song.artists.artist_name
     );
 
+    const titleCell =
+        linkSong && song.song_id != null ? (
+            <Link
+                to={`/songs/${song.song_id}`}
+                className="font-medium underline-offset-2 hover:underline"
+                style={{ color: "var(--text-h)" }}
+            >
+                {song.title}
+            </Link>
+        ) : (
+            <span className="font-medium" style={{ color: "var(--text-h)" }}>
+                {song.title}
+            </span>
+        );
+
     return (
         <tr>
             <td style={{ color: 'var(--muted)', width: '2.5rem' }}>{index + 1}</td>
-            <td className="font-medium" style={{ color: 'var(--text-h)' }}>{song.title}</td>
+            <td>{titleCell}</td>
             <td>{artistCell}</td>
             <td>{song.year}</td>
             {onAddSong && (
