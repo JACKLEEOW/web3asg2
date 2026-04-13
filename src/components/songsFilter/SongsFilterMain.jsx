@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import MainPanel from "./mainPanel/MainPanel.jsx";
 import FilterPanel from "./filterPanel/FilterPanel.jsx";
 import { FILTER_TYPES, SORT_TYPES, FILTER_YEARS } from "./filterUtils/filterConstants.js";
@@ -44,29 +44,21 @@ const SongsFilterMain = (props) => {
         setActiveFilterTags,
     });
 
-    const updateFilterHandler = useMemo(
-        () =>
-            createUpdateFilterHandler({
-                setTitleFilterBox,
-                setYearFilterBoxes,
-                setArtistFilterBoxes,
-                setGenreFilterBoxes,
-                setActiveFilterTags,
-            }),
-        []
-    );
+    const updateFilterHandler = createUpdateFilterHandler({
+        setTitleFilterBox,
+        setYearFilterBoxes,
+        setArtistFilterBoxes,
+        setGenreFilterBoxes,
+        setActiveFilterTags,
+    });
 
-    const clearFilterHandler = useMemo(
-        () =>
-            createClearFiltersHandler({
-                setTitleFilterBox,
-                setYearFilterBoxes,
-                setArtistFilterBoxes,
-                setGenreFilterBoxes,
-                setActiveFilterTags,
-            }),
-        []
-    );
+    const clearFilterHandler = createClearFiltersHandler({
+        setTitleFilterBox,
+        setYearFilterBoxes,
+        setArtistFilterBoxes,
+        setGenreFilterBoxes,
+        setActiveFilterTags,
+    });
 
     const filterState = {
         titleFilterBox,
